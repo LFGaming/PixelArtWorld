@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+    <style>* {padding: 0; margin: 0}</style>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+</head>
+    <script src="js/pixi.min.js"></script>
+<body>
+  <script type="text/javascript">
+    let type = "WebGL"
+    if(!PIXI.utils.isWebGLSupported()){
+      type = "canvas"
+    }
+
+    let Application = PIXI.Application,
+    loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    Sprite = PIXI.Sprite;
+
+    //Create a Pixi Application
+    let app = new Application({ 
+    width: 256,         // default: 800
+    height: 256,        // default: 600
+    antialias: true,    // default: false
+    transparent: false, // default: false
+    resolution: 1       // default: 1
+        }
+    );
+
+    //Add the canvas that Pixi automatically created for you to the HTML document
+    document.body.appendChild(app.view);
+
+    app.renderer.backgroundColor = 0x061639;
+    app.renderer.autoResize = true;
+    app.renderer.resize(512, 512);
+
+    app.renderer.view.style.position = "absolute";
+    app.renderer.view.style.display = "block";
+    app.renderer.autoResize = true;
+    app.renderer.resize(window.innerWidth, window.innerHeight);
+
+/*    PIXI.utils.TextureCache["images/png/0.png"];
+    
+    let texture = PIXI.utils.TextureCache["images/png/0.png"];
+    let sprite = new PIXI.Sprite(texture);
+
+    PIXI.loader
+    .add("images/0.png")
+    .load(setup);
+
+    function setup() {
+        let sprite = new PIXI.Sprite(
+            PIXI.loader.resources["images/0.png"].texture
+        );
+    } */
+    
+    //Add the canvas that Pixi automatically created for you to the HTML document
+    document.body.appendChild(app.view);
+
+    //Use Pixi's built-in `loader` module to load an image
+    loader
+    .add([
+        "images/4x/0.png",
+        "images/4x/1.png",
+        "images/4x/2.png"
+    ])
+    .load(setup)
+    .on("progress", loadProgressHandler);
+
+
+    function loadProgressHandler(loader, resource) {
+
+    //Display the file `url` currently being loaded
+    console.log("loading: " + resource.url); 
+
+    //If you gave your files names with the `add` method, you can access
+    //them like this
+    //console.log("loading: " + resource.name);
+
+    //Display the percentage of files currently loaded
+    console.log("progress: " + loader.progress + "%"); 
+    }
+
+    function setup() {
+    console.log("setup"); 
+
+    //Create the sprites
+    let cat = new Sprite(resources["images/4x/0.png"].texture),
+        blob = new Sprite(resources["images/4x/1.png"].texture),
+        explorer = new Sprite(resources["images/4x/2.png"].texture);
+
+    //Add the sprites to the stage
+    app.stage.addChild(cat);
+    app.stage.addChild(blob);
+    app.stage.addChild(explorer);
+
+    //Position the sprites
+    blob.position.set(64, 0);
+    explorer.position.set(128, 0);
+    
+    }
+
+    //This `setup` function will run when the image has loaded
+    /*function setup() {
+
+    //Create the cat sprite
+    let zero = new Sprite(resources["images/ground sprites tileset.png"].texture);
+    
+    //Add the cat to the stage
+    app.stage.addChild(zero);
+    }*/
+
+    PIXI.utils.sayHello(type)
+  </script>
+</body>
+</html>
