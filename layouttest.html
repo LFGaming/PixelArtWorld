@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <title>Make a sprite from a texture atlas</title>
 <body>
-<canvas id="canvas" width="420px" height="420px" style="background: #fff;     magrin:20px;"></canvas>
+<canvas id="canvas" width="420px" height="420px";"></canvas>
 <script src="js/pixi.min.js"></script>
 <script>
 
@@ -72,39 +72,10 @@ function setup() {
   ldg.position.set(64, 64);
   app.stage.addChild(ldg);
 
-  /*//Make the blobs
-  let numberOfBlobs = 1,
-      spacing = 128,
-      xOffset = 128;
-
-  //Make as many blobs as there are `numberOfBlobs`
-  for (let i = 0; i < numberOfBlobs; i++) {
-
-    //Make a blob
-    let blob = new Sprite(id["4.png"]);
-
-    //Space each blob horizontally according to the `spacing` value.
-    //`xOffset` determines the point from the left of the screen
-    //at which the first blob should be added.
-    //let x = spacing * i + xOffset;
-    let x = 32;
-
-    //Give the blob a random y position
-    //(`randomInt` is a custom function - see below)
-    //let y = randomInt(0, app.stage.height - blob.height);
-    let y = 64;
-
-    //Set the blob's position
-    blob.x = x;
-    blob.y = y;
-
-    //Add the blob sprite to the stage
-    app.stage.addChild(blob); 
-  }*/
   // Scale mode for all textures, will retain pixelation
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-  const sprite = fg //PIXI.Sprite.from('images/sprites2.png');
+  //const sprite = fg //PIXI.Sprite.from('images/sprites2.png');
 
   // Set the initial position
   sprite.anchor.set(0.5);
@@ -127,15 +98,11 @@ function setup() {
   app.stage.addChild(sprite);
 
   function onClick() {
-      sprite.scale.x *= 1.25;
-      sprite.scale.y *= 1.25;
+      //sprite.scale.x *= 1.25;
+      //sprite.scale.y *= 1.25;
+    alert("test");
   }
 }
-
-//The `randomInt` helper function
-/*function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}*/
 
 // Box width
 var bw = 400;
