@@ -1,0 +1,166 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Make a sprite from a texture atlas</title>
+<body>
+<canvas id="canvas" width="420px" height="420px" style="background: #fff;     magrin:20px;"></canvas>
+<script src="js/pixi.min.js"></script>
+<script>
+
+//Aliases
+let Application = PIXI.Application,
+    Container = PIXI.Container,
+    loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite,
+    Rectangle = PIXI.Rectangle;
+
+//Create a Pixi Application
+let app = new Application({ 
+    width: 512, 
+    height: 512,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
+
+//load a JSON file and run the `setup` function when it's done
+loader
+  .add("images/sprites2.json")
+  .load(setup);
+
+//Define variables that might be used in more 
+//than one function
+let fg, drg, mdg, ldg, id;
+
+function setup() {
+
+  //There are 3 ways to make sprites from textures atlas frames
+
+  //1. Access the `TextureCache` directly
+  let fgTexture = TextureCache["0.png"];
+  fg = new Sprite(fgTexture);
+  app.stage.addChild(fg);
+
+  //2. Access the texture using throuhg the loader's `resources`:
+  drg = new Sprite(
+    resources["images/sprites2.json"].textures["1.png"]
+  );
+  drg.x = 200;
+  drg.y = 100;
+  app.stage.addChild(drg);
+
+  //3. Create an optional alias called `id` for all the texture atlas 
+  //frame id textures.
+  id = PIXI.loader.resources["images/sprites2.json"].textures; 
+  
+  //Make the treasure box using the alias
+  mdg = new Sprite(id["2.png"]);
+  app.stage.addChild(mdg);
+
+  //Position the treasure next to the right edge of the canvas
+  mdg.x = 50;
+  mdg.y = 33;
+  app.stage.addChild(mdg);
+
+  //Make the exit door
+  ldg = new Sprite(id["3.png"]); 
+  ldg.position.set(64, 64);
+  app.stage.addChild(ldg);
+
+  /*//Make the blobs
+  let numberOfBlobs = 1,
+      spacing = 128,
+      xOffset = 128;
+
+  //Make as many blobs as there are `numberOfBlobs`
+  for (let i = 0; i < numberOfBlobs; i++) {
+
+    //Make a blob
+    let blob = new Sprite(id["4.png"]);
+
+    //Space each blob horizontally according to the `spacing` value.
+    //`xOffset` determines the point from the left of the screen
+    //at which the first blob should be added.
+    //let x = spacing * i + xOffset;
+    let x = 32;
+
+    //Give the blob a random y position
+    //(`randomInt` is a custom function - see below)
+    //let y = randomInt(0, app.stage.height - blob.height);
+    let y = 64;
+
+    //Set the blob's position
+    blob.x = x;
+    blob.y = y;
+
+    //Add the blob sprite to the stage
+    app.stage.addChild(blob); 
+  }*/
+  // Scale mode for all textures, will retain pixelation
+  PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
+  const sprite = fg //PIXI.Sprite.from('images/sprites2.png');
+
+  // Set the initial position
+  sprite.anchor.set(0.5);
+  sprite.x = app.screen.width / 2;
+  sprite.y = app.screen.height / 2;
+
+  // Opt-in to interactivity
+  sprite.interactive = true;
+
+  // Shows hand cursor
+  sprite.buttonMode = true;
+
+  // Pointers normalize touch and mouse
+  sprite.on('pointerdown', onClick);
+
+  // Alternatively, use the mouse & touch events:
+  // sprite.on('click', onClick); // mouse-only
+  // sprite.on('tap', onClick); // touch-only
+
+  app.stage.addChild(sprite);
+
+  function onClick() {
+      sprite.scale.x *= 1.25;
+      sprite.scale.y *= 1.25;
+  }
+}
+
+//The `randomInt` helper function
+/*function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}*/
+
+// Box width
+var bw = 400;
+// Box height
+var bh = 400;
+// Padding
+var p = 10;
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+function drawBoard(){
+    for (var x = 0; x <= bw; x += 40) {
+        context.moveTo(0.5 + x + p, p);
+        context.lineTo(0.5 + x + p, bh + p);
+    }
+
+    for (var x = 0; x <= bh; x += 40) {
+        context.moveTo(p, 0.5 + x + p);
+        context.lineTo(bw + p, 0.5 + x + p);
+    }
+    context.strokeStyle = "red";
+    context.stroke();
+}
+
+drawBoard();
+
+</script>
+</body>
